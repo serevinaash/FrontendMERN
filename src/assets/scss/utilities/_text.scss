@@ -45,7 +45,15 @@
 .text-white { color: $white !important; }
 
 @each $color, $value in $theme-colors {
-  @include text-emphasis-variant(".text-#{$color}", $value);
+  @include text-emphasis-variant(".text#{$color}", $value);
+}
+
+@each $color, $value in $colors {
+  @include text-emphasis-variant(".text#{$color}", $value);
+}
+
+@each $color, $value in $grays {
+  @include text-emphasis-variant(".text-gray-#{$color}", $value);
 }
 
 .text-body { color: $body-color !important; }
