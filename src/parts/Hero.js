@@ -8,6 +8,7 @@ import IconTreasure from "assets/images/feature-2.png";
 import IconCities from "assets/images/feature-3.png";
 
 import Button from "elements/Button";
+import formatNumber from "utils/formatNumber";
 
 export default function Hero(props) {
   function showMostPicked() {
@@ -42,8 +43,8 @@ export default function Hero(props) {
             Show Me Now
           </Button>
 
-            <div className="row mt-5">
-            <div className="col-auto">
+            <div className="row" style={{marginTop : 80}}>
+            <div className="col-auto" style={{marginRight : 35}}> 
               <img 
                 width="36"
                 height="36"
@@ -51,7 +52,7 @@ export default function Hero(props) {
                 alt={`${props.data.hero.travelers} Travelers`} 
               />
               <h6 className="mt-3">
-                {props.data.hero.travelers}{" "}
+                {formatNumber(props.data.hero.travelers)}{" "}
                 <span className="text-gray-500 font-weight-light">Travelers</span>
               </h6>
             </div>
@@ -63,7 +64,7 @@ export default function Hero(props) {
                 alt={`${props.data.hero.treasures} Treasures`} 
               />
               <h6 className="mt-3">
-                {props.data.hero.treasures}{" "}
+                {formatNumber(props.data.hero.treasures)}{" "}
                 <span className="text-gray-500 font-weight-light">Treasures</span>
               </h6>
             </div>
@@ -75,7 +76,7 @@ export default function Hero(props) {
                 alt={`${props.data.hero.cities} Cities`} 
               />
               <h6 className="mt-3">
-                {props.data.hero.cities}{" "}
+                {formatNumber(props.data.hero.cities)}{" "}
                 <span className="text-gray-500 font-weight-light">Cities</span>
               </h6>
             </div>
