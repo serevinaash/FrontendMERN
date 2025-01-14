@@ -6,13 +6,22 @@ import landingPage from 'json/landingPage.json'
 import Hero from 'parts/Hero';
 import MostPicked from 'parts/MostPicked'
 
+
 export default class LandingPage extends Component {
+  constructor(props) {
+    super(props);
+    this.refMostPicked = React.createRef();
+  }
+
+
+
   render() {
+    console.log(this.props);
     return (
       <>
       <Header {...this.props}></Header>
-      <Hero data={landingPage} />
-      <MostPicked data={landingPage.mostPicked} />
+      <Hero refMostPicked={this.refMostPicked} data={landingPage} />
+      <MostPicked refMostPicked={this.refMostPicked} data={landingPage.mostPicked} />
 
 
       </>
