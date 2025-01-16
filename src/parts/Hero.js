@@ -3,9 +3,9 @@ import React from "react";
 import ImageHero from "assets/images/img-hero.jpg";
 import ImageHero_ from "assets/images/img-hero-frame.jpg";
 
-import IconTraveler from "assets/images/feature-1.png";
-import IconTreasure from "assets/images/feature-2.png";
-import IconCities from "assets/images/feature-3.png";
+import IconTraveler from "assets/images/icon-traveler.svg";
+import IconTreasure from "assets/images/icon-treasure.svg";
+import IconCities from "assets/images/icon-cities.svg";
 
 import Button from "elements/Button";
 import formatNumber from "utils/formatNumber";
