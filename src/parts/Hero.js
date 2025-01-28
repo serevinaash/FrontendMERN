@@ -1,4 +1,5 @@
 import React from "react";
+import { motion } from "framer-motion";
 
 import ImageHero from "assets/images/img-hero.jpg";
 import ImageHero_ from "assets/images/img-hero-frame.jpg";
@@ -18,9 +19,13 @@ export default function Hero(props) {
     });
   }
 
-
   return (
-    <section className="container pt-4">
+    <motion.section
+      className="container pt-4"
+      initial={{ opacity: 0, y: 50 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8 }}
+    >
       <div className="row align-items-center">
         <div className="col-auto pr-5" style={{ width: 530 }}>
           <h1 className="font-weight-bold line-height-1 mb-3">
@@ -43,13 +48,13 @@ export default function Hero(props) {
             Show Me Now
           </Button>
 
-            <div className="row" style={{marginTop : 80}}>
-            <div className="col-auto" style={{marginRight : 35}}> 
-              <img 
+          <div className="row" style={{ marginTop: 80 }}>
+            <div className="col-auto" style={{ marginRight: 35 }}>
+              <img
                 width="36"
                 height="36"
-                src="assets/images/icon-traveler.svg"
-                alt={`${props.data.hero.travelers} Travelers`} 
+                src={IconTraveler}
+                alt={`${props.data.hero.travelers} Travelers`}
               />
               <h6 className="mt-3">
                 {formatNumber(props.data.hero.travelers)}{" "}
@@ -57,11 +62,11 @@ export default function Hero(props) {
               </h6>
             </div>
             <div className="col-auto">
-              <img 
+              <img
                 width="36"
                 height="36"
-                src="assets/images/icon-treasure.svg"
-                alt={`${props.data.hero.treasures} Treasures`} 
+                src={IconTreasure}
+                alt={`${props.data.hero.treasures} Treasures`}
               />
               <h6 className="mt-3">
                 {formatNumber(props.data.hero.treasures)}{" "}
@@ -69,11 +74,11 @@ export default function Hero(props) {
               </h6>
             </div>
             <div className="col-auto">
-              <img 
+              <img
                 width="36"
                 height="36"
-                src="assets/images/icon-cities.svg"
-                alt={`${props.data.hero.cities} Cities`} 
+                src={IconCities}
+                alt={`${props.data.hero.cities} Cities`}
               />
               <h6 className="mt-3">
                 {formatNumber(props.data.hero.cities)}{" "}
@@ -83,22 +88,22 @@ export default function Hero(props) {
           </div>
         </div>
         <div className="col-6 pl-5">
-            <div style={{ width: 520, height: 410 }}>
-              <img
-                src={ImageHero}
-                alt="Room with couches"
-                className="img-fluid position-absolute"
-                style={{ margin: "-30px 0 0 -30px", zIndex: 1 }}
-              />
-              <img
-                src={ImageHero_}
-                alt="Room with couches frame"
-                className="img-fluid position-absolute"
-                style={{ margin: "0 -15px -15px 0" }}
-              />
-            </div>
+          <div style={{ width: 520, height: 410 }}>
+            <img
+              src={ImageHero}
+              alt="Room with couches"
+              className="img-fluid position-absolute"
+              style={{ margin: "-30px 0 0 -30px", zIndex: 1 }}
+            />
+            <img
+              src={ImageHero_}
+              alt="Room with couches frame"
+              className="img-fluid position-absolute"
+              style={{ margin: "0 -15px -15px 0" }}
+            />
+          </div>
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 }

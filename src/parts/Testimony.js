@@ -5,8 +5,16 @@ import TestimonyAccent from "assets/images/testimonial-landingpages-frame.jpg";
 import Star from "elements/Star";
 import Button from "elements/Button";
 
+import { motion } from "framer-motion";
+
 export default function Testimony({ data }) {
   return (
+    <motion.section
+              className="container pt-4"
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+            >
       <section className="container">
         <div className="row align-items-center">
           <div className="col-auto" style={{ marginRight: 60 }}>
@@ -53,5 +61,6 @@ export default function Testimony({ data }) {
           </div>
         </div>
       </section>
+      </motion.section>
   );
 }

@@ -1,9 +1,16 @@
 import React from 'react';
+import { motion } from "framer-motion";
 import Button from "elements/Button";
 
 export default function Categories({ data }) {
   return data.map((category, index1) => {
     return (
+         <motion.section
+                className="container pt-4"
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
+              >
       <section className="container" key={`category-${index1}`}>
         <h4 className="mb-3 font-weight-medium">{category.name}</h4>
         <div className="container-grid">
@@ -52,6 +59,7 @@ export default function Categories({ data }) {
           )}
         </div>
       </section>
+      </motion.section>
     );
   });
 }
