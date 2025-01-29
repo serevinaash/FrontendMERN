@@ -1,75 +1,109 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import React, { Component } from "react";
+
 import propTypes from "prop-types";
+
 import Button from "elements/Button";
-import { InputNumber, InputDate } from "elements/Form";
+import {InputNumber, InputDate } from "elements/Form";
 
-const BookingForm = ({ itemDetails }) => {
-  const [data, setData] = useState({
-    duration: 1,
-    date: {
-      startDate: new Date(),
-      endDate: new Date(),
-      key: "selection",
-    },
-  });
+export default class BookingForm extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: {
+        duration: 1,
+        date: {
+          startDate: new Date(),
+          endDate: new Date(),
+          key: "selection",
+        },
+      },
+    };
+  }
 
-  const navigate = useNavigate(); // Inisialisasi useNavigate
-
-  const updateData = (e) => {
-    setData({
-      ...data,
-      [e.target.name]: e.target.value,
+  updateData = (e) => {
+    this.setState({
+      ...this.state,
+      data: {
+        ...this.state.data,
+        [e.target.name]: e.target.value,
+      },
     });
   };
 
-  useEffect(() => {
-    const startDate = new Date(data.date.startDate);
-    const endDate = new Date(data.date.endDate);
-    const countDuration = new Date(endDate - startDate).getDate();
+  componentDidUpdate(prevProps, prevState) {
+    const { data } = this.state;
 
-    setData((prevData) => ({
-      ...prevData,
-      duration: countDuration,
-    }));
-  }, [data.date]);
+    if (prevState.data.date !== data.date) {
+      const startDate = new Date(data.date.startDate);
+      const endDate = new Date(data.date.endDate);
+      const countDuration = new Date(endDate - startDate).getDate();
+      this.setState({
+        data: {
+          ...this.state.data,
+          duration: countDuration,
+        },
+      });
+    }
 
-  useEffect(() => {
-    const startDate = new Date(data.date.startDate);
-    const endDate = new Date(
-      startDate.setDate(startDate.getDate() + +data.duration - 1)
-    );
+    if (prevState.data.duration !== data.duration) {
+      const startDate = new Date(data.date.startDate);
+      const endDate = new Date(
+        startDate.setDate(startDate.getDate() + +data.duration - 1)
+      );
+      this.setState({
+        ...this.state,
+        data: {
+          ...this.state.data,
+          date: {
+            ...this.state.data.date,
+            endDate: endDate,
+          },
+        },
+      });
+    }
+  }
+  render() {
+    const { data } = this.state;
+    const { itemDetails } = this.props;
 
-    setData((prevData) => ({
-      ...prevData,
-      date: {
-        ...prevData.date,
-        endDate: endDate,
-      },
-    }));
-  }, [data.duration]);
+    return (
+      <div className="card bordered" style={{ padding: "60px 80px" }}>
+        <h4 className="mb-3">Start Booking</h4>
+    
 
-  return (
-    <div className="card bordered" style={{ padding: "60px 80px" }}>
-      <h4 className="mb-3">Start Booking</h4>
+        <label htmlFor="duration">How long you will stay?</label>
+        <InputNumber
+          max={30}
+          suffix={" night"}
+          isSuffixPlural
+          onChange={this.updateData}
+          name="duration"
+          value={data.duration}
+        />
       
+        <label htmlFor="date">Pick a date</label>
+        <InputDate onChange={this.updateData} name="date" value={data.date} />
 
-      <label htmlFor="duration">How long you will stay?</label>
-      <InputNumber
-        max={30}
-        suffix={" night"}
-        isSuffixPlural
-        onChange={updateData}
-        name="duration"
-        value={data.duration}
-      />
-    </div>
-  );
-};
+    
+
+        <Button
+          className="btn"
+          hasShadow
+          isPrimary
+          isBlock
+          onClick={this.startBooking}
+        >
+          Continue to Book
+        </Button>
+
+      
+      </div>
+    );
+  }
+}
 
 BookingForm.propTypes = {
   itemDetails: propTypes.object,
   startBooking: propTypes.func,
 };
 
-export default BookingForm;
