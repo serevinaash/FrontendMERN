@@ -1,7 +1,6 @@
 import React from 'react'
 import Button from 'elements/Button'
 import BrandIcon from 'parts/IconText'
-import Fade from "react-reveal/Fade";
 
 
 
