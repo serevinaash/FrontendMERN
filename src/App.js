@@ -13,8 +13,9 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<LandingPage />} />
-          <Route path="/properties/:id" element={<DetailsPage />} />
+          <Route path="/properties/:id" Component={DetailsPage} />
           <Route path="/example" element={<Example />} />
+   
         </Routes>
       </Router>
     </div>

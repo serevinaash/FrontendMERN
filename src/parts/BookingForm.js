@@ -10,6 +10,7 @@ export default class BookingForm extends Component {
     super(props);
     this.state = {
       data: {
+        price: 0,
         duration: 1,
         date: {
           startDate: new Date(),
@@ -69,7 +70,13 @@ export default class BookingForm extends Component {
     return (
       <div className="card bordered" style={{ padding: "60px 80px" }}>
         <h4 className="mb-3">Start Booking</h4>
-    
+        <h5 className="h2 text-teal mb-4">
+          ${itemDetails?.price || 0}{" "}
+          <span className="text-gray-500 font-weight-light">
+            per {itemDetails?.unit || "unit"}
+          </span>
+        </h5>
+
 
         <label htmlFor="duration">How long you will stay?</label>
         <InputNumber
