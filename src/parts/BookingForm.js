@@ -83,11 +83,12 @@ export default class BookingForm extends Component {
           max={30}
           suffix={" night"}
           isSuffixPlural
-          onChange={this.updateData}
+          onChange={this.updateData} // ✅ Ganti dengan updateData
           name="duration"
-          value={data.duration}
+          value={this.state.data.duration} // ✅ Gunakan nilai dari state
         />
-      
+
+
         <label htmlFor="date">Pick a date</label>
         <InputDate onChange={this.updateData} name="date" value={data.date} />
 
