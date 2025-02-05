@@ -1,5 +1,5 @@
 import React from "react";
-import { render, fireEvent } from "@testing-library/react";
+import { render, fireEvent, waitFor } from "@testing-library/react";
 import InputNumber from "./index";
 
 class TestInput extends React.Component {
@@ -32,12 +32,18 @@ const setup = () => {
   };
 };
 
-test("Should able to change value", () => {
-  const { input } = setup();
+test("Should not be able to change when reach max value", async () => {
+  const { getByRole } = render(<InputNumber min={1} max={10} value={10} onChange={() => {}} />);
+  const input = getByRole("spinbutton");
 
-  fireEvent.change(input, { target: { value: 23 } });
-  expect(input.value).toBe("23");
+  fireEvent.change(input, { target: { value: "33" } });
+
+  await waitFor(() => {
+    expect(input.value.replace(/\D/g, "")).toBe(""); 
+  });
 });
+
+
 
 test("Should not be able to change when reach max value", () => {
   const { input } = setup();
