@@ -1,78 +1,85 @@
-import React, { useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import "./index.scss";
 
-export default function Number(props) {
-  const { placeholder, name, min, max, prefix, suffix, isSuffixPlural } = props;
-  
-  // Simpan nilai dalam state
-  const [inputValue, setInputValue] = useState(props.value || min);
+export default function InputNumber(props) {
+  const { placeholder, name, min, max, prefix, suffix, isSuffixPlural, value, onChange, outerClassName } = props;
 
-  const onChange = (e) => {
-    let newValue = e.target.value.replace(prefix || "", "").replace(suffix || "", "");
-    const numericValue = Number(newValue);
-  
-    if (!isNaN(numericValue) && numericValue >= min && numericValue <= max) {
-      setInputValue(numericValue);
-      props.onChange({
-        target: { name, value: numericValue },
-      });
-    } else if (newValue === "") {
-      setInputValue(min); // Set nilai ke min jika input kosong
-    }
-  };
-  
+  // Gunakan value dari props atau default ke min
+  const currentValue = value !== undefined ? value : min;
 
-  const minus = () => {
-    setInputValue((prev) => {
-      const numericPrev = Number(prev); // Pastikan nilai numerik
-      if (numericPrev > min) {
-        const newValue = numericPrev - 1;
-        props.onChange({
-          target: { name, value: newValue },
-        });
-        return newValue;
+  const handleChange = (e) => {
+    let newValue = e.target.value;
+    
+    // Remove prefix if exists
+    if (prefix) newValue = newValue.replace(prefix, "");
+    
+    // Remove suffix (both singular and plural)
+    if (suffix) {
+      if (isSuffixPlural) {
+        // Remove both plural and singular forms
+        newValue = newValue.replace(new RegExp(`${suffix}s?$`), "");
+      } else {
+        newValue = newValue.replace(suffix, "");
       }
-      return prev;
-    });
-  };
-  
-  
-
-  const plus = () => {
-    if (inputValue < max) {
-      setInputValue((prev) => {
-        const newValue = prev + 1;
-        props.onChange({
-          target: { name, value: newValue },
-        });
-        return newValue;
-      });
     }
+
+    const numericValue = Number(newValue);
+
+    if (!isNaN(numericValue)) {
+      if (numericValue >= min && numericValue <= max) {
+        onChange({ target: { name, value: numericValue } });
+      } else if (newValue === "") {
+        onChange({ target: { name, value: min } });
+      }
+    }
+  };
+
+  const handleMinus = () => {
+    if (currentValue > min) {
+      onChange({ target: { name, value: currentValue - 1 } });
+    }
+  };
+
+  const handlePlus = () => {
+    if (currentValue < max) {
+      onChange({ target: { name, value: currentValue + 1 } });
+    }
+  };
+
+  // Generate display value with proper suffix
+  const generateDisplayValue = () => {
+    let displayValue = `${prefix || ""}${currentValue}`;
+    
+    if (suffix) {
+      if (isSuffixPlural && currentValue > 1) {
+        displayValue += `${suffix}s`; // Add plural suffix
+      } else {
+        displayValue += suffix; // Add singular suffix
+      }
+    }
+    
+    return displayValue;
   };
 
   return (
-    <div className={["input-number mb-3", props.outerClassName].join(" ")}>
+    <div className={["input-number mb-3", outerClassName].join(" ")}>
       <div className="input-group">
         <div className="input-group-prepend">
-          <span className="input-group-text minus" onClick={minus}>
+          <span className="input-group-text minus" onClick={handleMinus}>
             -
           </span>
         </div>
         <input
           type="text"
-          min={min}
-          max={max}
           name={name}
-          pattern="[0-9]*"
           className="form-control"
           placeholder={placeholder || "0"}
-          value={`${prefix ? prefix : ""}${inputValue}${suffix ? suffix : ""}${isSuffixPlural && inputValue > 1 ? "s" : ""}`}
-          onChange={onChange}
+          value={generateDisplayValue()}
+          onChange={handleChange}
         />
-
         <div className="input-group-append">
-          <span className="input-group-text plus" onClick={plus}>
+          <span className="input-group-text plus" onClick={handlePlus}>
             +
           </span>
         </div>
@@ -81,17 +88,21 @@ export default function Number(props) {
   );
 }
 
-Number.defaultProps = {
-  min: 1,
-  max: 30,
-  prefix: "",
-  suffix: "",
+InputNumber.propTypes = {
+  placeholder: PropTypes.string,
+  name: PropTypes.string.isRequired,
+  min: PropTypes.number,
+  max: PropTypes.number,
+  prefix: PropTypes.string,
+  suffix: PropTypes.string,
+  isSuffixPlural: PropTypes.bool,
+  value: PropTypes.number,
+  onChange: PropTypes.func.isRequired,
+  outerClassName: PropTypes.string
 };
 
-Number.propTypes = {
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  onChange: PropTypes.func.isRequired,
-  isSuffixPlural: PropTypes.bool,
-  placeholder: PropTypes.string,
-  outerClassName: PropTypes.string,
+InputNumber.defaultProps = {
+  min: 0,
+  max: 100,
+  isSuffixPlural: false
 };
